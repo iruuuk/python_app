@@ -1,66 +1,45 @@
-user = ['Dmitriy', 'Angelina', 'Ekaterina', 'Vasiliy']
-arm = [1, 2, 3, 4]
-password = ['3nfhr44n', 'hcgd65g', '456hfhhfh', '345bvhfh']
+cards = [['Астахов', 'Игорь', 'Александрович', 35, 'Муж', True, 'Москва', 'маркетолог'],
+         ['Вавилова', 'Елена', 'Сергеевна', 40, True, True, 'Таганрог', 'бухгалтер'], 
+         ['Карелин', 'Андрей', 'Васильевич', 25, 'Муж', False, 'Подольск', 'специалист'], 
+         ['Воронова', 'Мария', 'Игоревна', 30, True, False, 'Москва', 'менеджер'], 
+         ['Остроумовна', 'Карина', 'Владимировна', 44, True, True, 'Подольск', 'маркетолог'], 
+         ['Борзов', 'Владимир', 'Андреевич', 40, 'Муж', False, 'Москва', 'начальник отдела']]
+spec = ['маркетолог', 'бухгалтер', 'менеджер', 'специалист']
+mid_manag = ['начальник отдела', 'главный бухгалтер']
+top_manag = ['директор']
+salary = [40000, 60000, 80000]
+def adding_salary(cards, spec, mid_manag, top_manag, salary):
+    for card in cards:
+        if card[-1] in spec:
+            card.append(float(salary[0]))
+        elif card[-1] in mid_manag:
+            card.append(float(salary[1]))
+        elif card[-1] in top_manag:
+            card.append(float(salary[2]))
+    return cards
+adding_salary(cards, spec, mid_manag, top_manag, salary)
+print(adding_salary(cards, spec, mid_manag, top_manag, salary))
 
-free_arm = []
+adding_sum = 5000
+def dobavlenie(cards, adding_sum):
+    for card in cards:
+        if card[5] == True:
+            card[-1] += adding_sum
+    return cards
+print(dobavlenie(cards, adding_sum))
 
-def delete_user(name, user_list, arm_list, password_list):
-    for i in range(len(user_list)):
-        if user_list[i] == name:
-            del user_list[i]
-            del password_list[i]
-            arm_del = arm_list.pop(i)
-            free_arm.append(arm_del)
-            break
-        
-def add_user(username, user_password):
-    user.append(username)
-    password.append(user_password)
-    max_ = sorted(arm)[-1]
-    if not free_arm:
-        arm.append(max_+1)
-    else:
-        arm.append(free_arm.pop(0))
-        
-def login(name, arm_num):
-    for i in range(len(user)):
-        if user[i] == name:
-            if arm[i] == arm_num:
-                return('Добро пожаловать')
-            else:
-                return('Логин или пароль неверны')
-    return('Такого пользователя нет')
- 
-def login_3_tries():
-    try_num = 0
-    while try_num < 3:
-        login_result = login(input('Введите имя: '), int(input('Введите номер АРМ: ')))
-        if login_result != 'Добро пожаловать' and try_num < 2:
-            print(login_result)
-            print('У вас осталось ', 2-try_num, 'попытки')
-            try_num += 1
-        elif login_result != 'Добро пожаловать' and try_num == 2:
-            print(login_result)
-            print('Учетная запись заблокирована')
-            try_num += 1
-        else:
-            if login_result == 'Добро пожаловать':
-                print(login_result)
-                try_num = 3
-login_3_tries()
-           
-            
-delete_user('Ekaterina', user, arm, password)
-add_user('Saveliy', '4937394kfs')
-add_user('Vitaliy', '374934hfd')
-print(login('Dmitriy', 1))
-login('Vitaliy', 2)
-#print(login(input('Введите имя: '), int(input('Введите номер АРМ: '))))
+procent = int(input('Введите процент отчислений: '))
+def otchisleniya(cards, procent):
+    for card in cards:
+        card.append(card[-1]-(card[-1]*procent/100))
+    return cards
+print(otchisleniya(cards, procent))
 
 
-        
-
-print(user)
-print(arm)
-print(password)
-print(free_arm)
+def vyvod():
+    for card in cards:
+        print('ФИО сотрудника: ' + str(card[0:3]))
+        print('Должность: ' + str(card[7]))
+        print('Заработная плата за вычетом налоговых отчислений: ' + str(card[-1]))
+    return card
+vyvod()
